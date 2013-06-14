@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xsi:schemaLocation="   
+          http://www.springframework.org/schema/beans    
+          http://www.springframework.org/schema/beans/spring-beans-2.0.xsd 
+          http://www.springframework.org/schema/aop    
+          http://www.springframework.org/schema/aop/spring-aop-2.0.xsd   
+          http://www.springframework.org/schema/tx    
+          http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"> 
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/coldevent?useUnicode=true&amp;characterEncoding=UTF-8"/>
+		<property name="username" value="root"/>
+		<property name="password" value="zm12393012998"/>
+		<property name="maxActive" value="15" />
+		<property name="maxIdle" value="10" />
+		<property name="maxWait" value="1000" />
+		<!--removeAbandoned: 是否自动回收超时连接-->  
+		<property name="removeAbandoned" value="true"/>  
+		<!--removeAbandonedTimeout: 超时时间(以秒数为单位)-->  
+		<property name="removeAbandonedTimeout" value="300"/>  
+		<property name="validationQuery">  
+		   <value>SELECT 1</value>  
+		</property>  
+	</bean>
+	
+	 <!-- 配置sqlSessionFactory -->  
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
+        <property name="dataSource" ref="dataSource" />  
+        <property name="configLocation" value="classpath:mybatis_config.xml" />  
+    </bean>
+  
+    <!-- 配置sqlSessionTemplate -->  
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">  
+        <constructor-arg index="0" ref="sqlSessionFactory" />  
+    </bean>  
+  
+    <!-- 配置事务 -->  
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+        <property name="dataSource" ref="dataSource" />  
+    </bean>  
+    <tx:annotation-driven transaction-manager="txManager" />
+  
+	<!-- 回复配置 -->
+	<import resource="reply_spring.xml"/>
+	<!-- 事件配置 -->
+	<import resource="event_spring.xml"/>
+</beans>

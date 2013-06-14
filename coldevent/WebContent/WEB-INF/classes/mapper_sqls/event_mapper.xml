@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="com.cold.dao.EventDao">
+  
+    <!-- 定义要操作的SQL语句 -->  
+    <insert id="insertEvent" parameterType="eventVO">
+        insert into t_event (author,name,startTime,createTime,cause,after,result,state)
+        values(#{author},#{name},#{startTime},#{createTime},#{cause},#{after},#{result},#{state}) 
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="eventNo" >  
+          SELECT LAST_INSERT_ID()  
+        </selectKey>
+    </insert>
+    
+    <select id="getEventByEventNo" resultType="eventVO" parameterType="int">
+        select * 
+        from t_event
+        where eventNo = #{eventNo}
+    </select>
+    <select id="getEventsByAuthor" resultType="eventVO" parameterType="java.lang.String">
+        select * 
+        from t_event
+        where author=#{author}
+    </select>
+    
+    <select id="getEventsByYear" resultType="eventVO" parameterType="java.util.Map">
+	     <![CDATA[
+	        select eventNo,startTime,cause 
+	        from t_event
+	        where startTime>=#{startDate} AND startTime<#{endDate} order by startTime desc
+        ]]>
+    </select>
+    
+    <update id="modifyEvent" parameterType="eventVO">
+        UPDATE t_event
+		SET 
+			 startTime=#{startTime},
+			 cause=#{cause},
+			 after=#{after},
+			 result=#{result},
+			 state=#{state}
+		WHERE eventNo = #{eventNo}
+    </update>
+</mapper>

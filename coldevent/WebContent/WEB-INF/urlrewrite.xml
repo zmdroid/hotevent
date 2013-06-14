@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+        "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<urlrewrite>
+    <rule>
+    	<name>我推荐过的</name>
+    	<from>/测试</from>
+    	<to>%{context-path}/test.do</to>
+    </rule>
+    <rule>
+    	<name>网站首页</name>
+    	<from>/index$</from>
+    	<to>/page/index.jsp</to>
+    </rule>
+    <rule>
+    	<name>事件详细页</name>
+    	<from>/hotevent/([0-9]+)$</from>
+    	<to>%{context-path}/getEventByEventNo.do?eventNo=$1</to>
+    </rule>
+</urlrewrite>

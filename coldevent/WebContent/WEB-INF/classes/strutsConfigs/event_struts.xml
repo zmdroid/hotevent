@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="example" extends="struts-default">
+		<action name="createNewEvent" method="createNewEvent" class="com.cold.action.EventAction"/>
+		<action name="getEventByEventNo" method="getEventByEventNo" class="com.cold.action.EventAction">
+			<result name="success">/page/event/eventdetail.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		<action name="getEventsByYear" method="getEventsByYear" class="com.cold.action.EventAction"/>
+		<action name="getEventsByAuthor" method="getEventsByAuthor" class="com.cold.action.EventAction"/>
+	</package>
+</struts>
